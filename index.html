@@ -2,17 +2,25 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>الشركة - الرئيسية</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
             font-family: 'Alexandria', 'Tahoma', sans-serif;
+            background: #ffffff;
+            overflow-x: hidden;
         }
 
         :root {
@@ -21,73 +29,140 @@
             --accent: #c59649;
         }
 
-        body {
-            overflow-x: hidden;
-        }
-
         /* Navbar */
-        .navbar {
-            background: linear-gradient(135deg, var(--primary) 0%, #004558 100%) !important;
-            box-shadow: 0 4px 15px rgba(0, 92, 123, 0.15);
+        nav {
+            background: linear-gradient(135deg, var(--primary) 0%, #003d52 100%);
+            padding: 0;
             position: sticky;
             top: 0;
             z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 92, 123, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
         }
 
         .navbar-brand {
-            font-size: 24px;
-            font-weight: bold;
-            color: white !important;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-item {
+            position: relative;
         }
 
         .nav-link {
-            color: white !important;
-            font-weight: 500;
+            color: white;
+            text-decoration: none;
+            padding: 12px 18px;
             transition: all 0.3s ease;
-            margin-right: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border-radius: 8px;
         }
 
         .nav-link:hover {
-            color: var(--secondary) !important;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--secondary);
+        }
+
+        .dropdown {
+            position: relative;
         }
 
         .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
             background: white;
-            border: none;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            border-radius: 10px;
+            border-radius: 12px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+            min-width: 180px;
+            padding: 10px 0;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 5px;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
 
         .dropdown-item {
             color: var(--primary);
-            transition: all 0.3s ease;
+            text-decoration: none;
             padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
         }
 
         .dropdown-item:hover {
-            background: var(--secondary) !important;
-            color: white !important;
-            border-radius: 8px;
+            background: var(--secondary);
+            color: white;
+            padding-right: 25px;
         }
 
         .btn-store {
             background: linear-gradient(135deg, var(--secondary) 0%, #2aa89a 100%);
+            color: white;
+            padding: 12px 28px;
             border: none;
-            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
             font-weight: 600;
             transition: all 0.3s ease;
-            transform: translateY(0);
+            font-size: 15px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn-store:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(64, 186, 172, 0.3);
+            box-shadow: 0 12px 30px rgba(64, 186, 172, 0.4);
+            background: linear-gradient(135deg, #2aa89a 0%, var(--secondary) 100%);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, #003d52 100%);
-            min-height: 500px;
+            background: linear-gradient(135deg, var(--primary) 0%, #003d52 50%, var(--secondary) 100%);
+            min-height: 600px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -99,12 +174,30 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
             width: 600px;
             height: 600px;
-            background: rgba(64, 186, 172, 0.1);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(197, 150, 73, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -100px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
         }
 
         .hero-content {
@@ -117,7 +210,7 @@
         @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -125,93 +218,156 @@
             }
         }
 
-        .hero-logo {
-            font-size: 80px;
+        .hero-icon {
+            font-size: 100px;
             margin-bottom: 20px;
-            animation: float 3s ease-in-out infinite;
+            animation: bounce 2s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
         }
 
         .hero-title {
-            font-size: 48px;
+            font-size: 56px;
             font-weight: 700;
             margin-bottom: 30px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
 
         .social-icons {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
+            margin-top: 40px;
         }
 
         .social-icon {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             color: white;
             transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 24px;
+            text-decoration: none;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .social-icon:hover {
-            background: var(--secondary);
-            transform: scale(1.1);
+            background: var(--accent);
+            transform: scale(1.15) translateY(-10px);
+            border-color: var(--accent);
         }
 
-        /* Section Styles */
+        /* Section Title */
         .section-title {
-            color: var(--primary);
-            font-size: 36px;
+            text-align: center;
+            font-size: 42px;
             font-weight: 700;
-            margin-bottom: 30px;
+            color: var(--primary);
+            margin-bottom: 50px;
             position: relative;
             display: inline-block;
+            width: 100%;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: var(--secondary);
-            border-radius: 2px;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            border-radius: 3px;
         }
 
+        /* Intro Section */
         .intro-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-            padding: 80px 0;
+            padding: 100px 30px;
+            background: linear-gradient(135deg, #f0f8fa 0%, #ffffff 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .intro-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(64, 186, 172, 0.05) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .intro-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
         .intro-text {
             color: #555;
             font-size: 18px;
-            line-height: 1.8;
+            line-height: 2;
+            text-align: center;
         }
 
-        /* Cards */
+        /* Cards Section */
+        .cards-section {
+            padding: 100px 30px;
+            background: #ffffff;
+        }
+
+        .cards-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
         .info-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 20px;
             padding: 40px 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            border-top: 4px solid var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-top: 5px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
             height: 100%;
+            background: linear-gradient(135deg, rgba(64, 186, 172, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
 
         .info-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(-15px) rotateX(5deg);
+            box-shadow: 0 30px 60px rgba(0, 92, 123, 0.2);
+        }
+
+        .info-card:hover::before {
+            opacity: 1;
         }
 
         .info-card.secondary {
@@ -223,13 +379,15 @@
         }
 
         .info-card h3 {
-            color: var(--primary);
             font-size: 24px;
             font-weight: 700;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            color: var(--primary);
+            position: relative;
+            z-index: 1;
         }
 
         .info-card.secondary h3 {
@@ -240,127 +398,282 @@
             color: var(--accent);
         }
 
+        .info-card i {
+            font-size: 28px;
+        }
+
         .info-card p {
             color: #666;
             line-height: 1.8;
             font-size: 16px;
+            position: relative;
+            z-index: 1;
         }
 
         /* Stats Section */
         .stats-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, var(--primary) 0%, #003d52 100%);
+            padding: 100px 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, #003d52 50%, var(--secondary) 100%);
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-section::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            top: -100px;
+            left: -100px;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
         }
 
         .stat-box {
             text-align: center;
-            padding: 40px 20px;
+            padding: 50px 30px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .stat-box:hover {
             background: rgba(255, 255, 255, 0.15);
-            transform: translateY(-5px);
+            transform: translateY(-15px);
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .stat-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: var(--accent);
         }
 
         .stat-number {
-            font-size: 48px;
+            font-size: 52px;
             font-weight: 700;
-            color: var(--secondary);
+            color: var(--accent);
             margin-bottom: 10px;
         }
 
         .stat-label {
             font-size: 18px;
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         /* Join Section */
         .join-section {
-            padding: 100px 0;
+            padding: 120px 30px;
             background: linear-gradient(135deg, var(--secondary) 0%, #2aa89a 100%);
             text-align: center;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .join-section::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            bottom: -100px;
+            right: -100px;
+        }
+
+        .join-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .join-content h2 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .join-content p {
+            font-size: 20px;
+            margin-bottom: 50px;
+            opacity: 0.95;
         }
 
         .btn-join {
             background: white;
             color: var(--secondary);
-            padding: 18px 50px;
-            font-size: 20px;
+            padding: 18px 60px;
+            font-size: 18px;
             font-weight: 700;
             border: none;
             border-radius: 50px;
-            transition: all 0.3s ease;
-            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
             text-decoration: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
         .btn-join:hover {
             background: var(--accent);
             color: white;
-            transform: scale(1.05);
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
         }
 
         /* Contact Section */
         .contact-section {
-            padding: 80px 0;
-            background: #f8f9fa;
+            padding: 100px 30px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%);
+        }
+
+        .contact-container {
+            max-width: 700px;
+            margin: 0 auto;
+            margin-top: 60px;
         }
 
         .contact-form {
             background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         }
 
-        .form-control, .form-select {
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
             border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            padding: 12px 15px;
+            border-radius: 12px;
+            font-family: 'Alexandria', 'Tahoma', sans-serif;
             font-size: 16px;
             transition: all 0.3s ease;
+            background: #f9f9f9;
         }
 
-        .form-control:focus, .form-select:focus {
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 0.2rem rgba(0, 92, 123, 0.25);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(0, 92, 123, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
         .btn-submit {
             background: linear-gradient(135deg, var(--primary) 0%, #003d52 100%);
+            color: white;
+            padding: 16px 40px;
             border: none;
-            padding: 12px 40px;
-            font-weight: 600;
-            border-radius: 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .btn-submit:hover {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 92, 123, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 92, 123, 0.3);
         }
 
         /* Footer */
         footer {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary) 0%, #003d52 100%);
             color: white;
-            padding: 40px 0;
+            padding: 50px 30px;
             text-align: center;
         }
 
-        /* Mobile Menu */
-        @media (max-width: 991px) {
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        footer p {
+            font-size: 16px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .navbar-menu {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
             .hero-title {
+                font-size: 36px;
+            }
+
+            .hero-icon {
+                font-size: 70px;
+            }
+
+            .section-title {
                 font-size: 32px;
             }
 
-            .hero-logo {
-                font-size: 60px;
+            .join-content h2 {
+                font-size: 32px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 30px;
+            }
+
+            .stat-number {
+                font-size: 40px;
             }
         }
     </style>
@@ -368,192 +681,157 @@
 <body>
 
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">الشركة</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">الرئيسية</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">من نحن</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="mediaDropdown" role="button" data-bs-toggle="dropdown">
-                            المركز الإعلامي
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="mediaDropdown">
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-newspaper"></i> الأخبار</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-file-alt"></i> التقارير</a></li>
-                            <li><a class="dropdown-item" href="#"><i class="fas fa-blog"></i> المدونة</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">المشاريع</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">الاشتراكات</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-store text-white" href="#">المتجر</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">اتصل بنا</a>
-                    </li>
-                </ul>
+    <nav>
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <i class="fas fa-building"></i>
+                الشركة
             </div>
+            <ul class="navbar-menu">
+                <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-home"></i> الرئيسية</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-info-circle"></i> من نحن</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#"><i class="fas fa-broadcast-tower"></i> المركز الإعلامي <i class="fas fa-chevron-down" style="font-size: 12px;"></i></a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#"><i class="fas fa-newspaper"></i> الأخبار</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-file-alt"></i> التقارير</a>
+                        <a class="dropdown-item" href="#"><i class="fas fa-blog"></i> المدونة</a>
+                    </div>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-tasks"></i> المشاريع</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-handshake"></i> الاشتراكات</a></li>
+                <li class="nav-item"><a class="btn-store" href="#"><i class="fas fa-shopping-cart"></i> المتجر</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="fas fa-phone"></i> اتصل بنا</a></li>
+            </ul>
+            <button class="menu-toggle"><i class="fas fa-bars"></i></button>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
-            <div class="hero-logo">
-                <i class="fas fa-building"></i>
+            <div class="hero-icon">
+                <i class="fas fa-rocket"></i>
             </div>
             <h1 class="hero-title">شعار الشركة</h1>
+            <p style="font-size: 20px; opacity: 0.95; margin-bottom: 30px;">نحن نبني المستقبل</p>
             <div class="social-icons">
-                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
-                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon" title="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
         </div>
     </section>
 
     <!-- Introduction Section -->
     <section class="intro-section">
-        <div class="container">
-            <div class="text-center">
-                <h2 class="section-title mb-5">من نحن</h2>
-                <p class="intro-text">
-                    نحن مؤسسة رائدة متخصصة في تقديم الحلول التعليمية والتدريبية. نسعى إلى تطوير المهارات والقدرات من خلال برامج تدريبية متميزة وفعّالة تساهم في بناء مستقبل أفضل.
-                </p>
-            </div>
+        <div class="intro-container">
+            <h2 class="section-title" style="margin-bottom: 40px;">من نحن</h2>
+            <p class="intro-text">
+                نحن مؤسسة رائدة متخصصة في تقديم الحلول التعليمية والتدريبية. نسعى إلى تطوير المهارات والقدرات من خلال برامج تدريبية متميزة وفعّالة تساهم في بناء مستقبل أفضل للأفراد والمؤسسات.
+            </p>
         </div>
     </section>
 
-    <!-- Vision, Mission, Goals, Values -->
-    <section class="py-5" style="padding: 80px 0;">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="info-card">
-                        <h3><i class="fas fa-eye"></i> الرؤية</h3>
-                        <p>أن نكون المؤسسة الأولى في مجالنا، ملتزمين بتقديم أفضل الخدمات التعليمية والتدريبية بمستويات عالمية.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="info-card secondary">
-                        <h3><i class="fas fa-bullseye"></i> الرسالة</h3>
-                        <p>تمكين الأفراد والمؤسسات من خلال برامج تدريبية مبتكرة تساهم في تطوير مهاراتهم وقدراتهم المهنية.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="info-card accent">
-                        <h3><i class="fas fa-target"></i> الأهداف</h3>
-                        <p>تقديم برامج تدريبية عالية الجودة، بناء شراكات استراتيجية، وإحداث تأثير إيجابي على المجتمع.</p>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="info-card">
-                        <h3><i class="fas fa-star"></i> القيم</h3>
-                        <p>الجودة، الابتكار، الشفافية، والالتزام بخدمة العملاء والمجتمع بأعلى معايير الاحترافية.</p>
-                    </div>
-                </div>
+    <!-- Cards Section -->
+    <section class="cards-section">
+        <div class="cards-container" style="max-width: 1200px; margin: 0 auto;">
+            <h2 class="section-title" style="grid-column: 1 / -1; margin-bottom: 30px;">رؤيتنا وقيمنا</h2>
+            
+            <div class="info-card">
+                <h3><i class="fas fa-eye"></i> الرؤية</h3>
+                <p>أن نكون المؤسسة الأولى في مجالنا، ملتزمين بتقديم أفضل الخدمات التعليمية والتدريبية بمستويات عالمية تحقق التطور المستدام.</p>
+            </div>
+
+            <div class="info-card secondary">
+                <h3><i class="fas fa-bullseye"></i> الرسالة</h3>
+                <p>تمكين الأفراد والمؤسسات من خلال برامج تدريبية مبتكرة تساهم في تطوير مهاراتهم وقدراتهم المهنية بما يتوافق مع احتياجات السوق.</p>
+            </div>
+
+            <div class="info-card accent">
+                <h3><i class="fas fa-target"></i> الأهداف</h3>
+                <p>تقديم برامج تدريبية عالية الجودة، بناء شراكات استراتيجية، وإحداث تأثير إيجابي على المجتمع والاقتصاد المحلي والإقليمي.</p>
+            </div>
+
+            <div class="info-card">
+                <h3><i class="fas fa-star"></i> القيم</h3>
+                <p>الجودة، الابتكار، الشفافية، والالتزام بخدمة العملاء والمجتمع بأعلى معايير الاحترافية والنزاهة الأكاديمية والمهنية.</p>
             </div>
         </div>
     </section>
 
     <!-- Stats Section -->
     <section class="stats-section">
-        <div class="container">
-            <div class="row g-4">
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-box">
-                        <div class="stat-number">5,240</div>
-                        <div class="stat-label"><i class="fas fa-users"></i> المستفيدين</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-box">
-                        <div class="stat-number">1,850</div>
-                        <div class="stat-label"><i class="fas fa-clock"></i> ساعة تدريبية</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-box">
-                        <div class="stat-number">45</div>
-                        <div class="stat-label"><i class="fas fa-book"></i> مقرر</div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="stat-box">
-                        <div class="stat-number">28</div>
-                        <div class="stat-label"><i class="fas fa-tasks"></i> مشروع</div>
-                    </div>
-                </div>
+        <div class="stats-container">
+            <div class="stat-box">
+                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                <div class="stat-number">5,240</div>
+                <div class="stat-label">المستفيدين</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                <div class="stat-number">1,850</div>
+                <div class="stat-label">ساعة تدريبية</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon"><i class="fas fa-book"></i></div>
+                <div class="stat-number">45</div>
+                <div class="stat-label">مقرر</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+                <div class="stat-number">28</div>
+                <div class="stat-label">مشروع</div>
             </div>
         </div>
     </section>
 
     <!-- Join Section -->
     <section class="join-section">
-        <div class="container">
-            <h2 class="mb-4" style="font-size: 42px; font-weight: 700;">انضم معنا اليوم</h2>
-            <p class="mb-4" style="font-size: 18px; margin-bottom: 40px;">كن جزءاً من مجتمعنا واستفد من برامجنا التدريبية المتميزة</p>
-            <a href="#" class="btn-join">
-                <i class="fas fa-sign-in-alt"></i> انضم الآن
-            </a>
+        <div class="join-content">
+            <h2><i class="fas fa-sign-in-alt"></i> انضم معنا اليوم</h2>
+            <p>كن جزءاً من مجتمعنا واستفد من برامجنا التدريبية المتميزة والحصول على شهادات معتمدة</p>
+            <button class="btn-join"><i class="fas fa-check-circle"></i> انضم الآن</button>
         </div>
     </section>
 
     <!-- Contact Section -->
     <section class="contact-section">
-        <div class="container">
-            <h2 class="section-title mb-5">تواصل معنا</h2>
-            <div class="row">
-                <div class="col-lg-8 mx-auto">
-                    <form class="contact-form">
-                        <div class="row mb-4">
-                            <div class="col-md-6">
-                                <label for="name" class="form-label">الاسم الكامل</label>
-                                <input type="text" class="form-control" id="name" placeholder="أدخل اسمك الكامل">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="email" class="form-label">البريد الإلكتروني</label>
-                                <input type="email" class="form-control" id="email" placeholder="أدخل بريدك الإلكتروني">
-                            </div>
-                        </div>
-                        <div class="mb-4">
-                            <label for="subject" class="form-label">الموضوع</label>
-                            <input type="text" class="form-control" id="subject" placeholder="ما الموضوع؟">
-                        </div>
-                        <div class="mb-4">
-                            <label for="message" class="form-label">الرسالة</label>
-                            <textarea class="form-control" id="message" rows="6" placeholder="اكتب رسالتك..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-submit text-white w-100">
-                            <i class="fas fa-paper-plane"></i> إرسال الرسالة
-                        </button>
-                    </form>
+        <h2 class="section-title">تواصل معنا</h2>
+        <div class="contact-container">
+            <form class="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">الاسم الكامل</label>
+                        <input type="text" id="name" placeholder="أدخل اسمك الكامل" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">البريد الإلكتروني</label>
+                        <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" required>
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="subject">الموضوع</label>
+                    <input type="text" id="subject" placeholder="ما الموضوع؟" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">الرسالة</label>
+                    <textarea id="message" rows="6" placeholder="اكتب رسالتك..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i> إرسال الرسالة
+                </button>
+            </form>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="container">
-            <p class="mb-0">&copy; 2024 الشركة. جميع الحقوق محفوظة.</p>
+        <div class="footer-content">
+            <p>&copy; 2024 الشركة. جميع الحقوق محفوظة.</p>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
